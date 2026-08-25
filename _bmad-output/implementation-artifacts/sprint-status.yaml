@@ -1,0 +1,69 @@
+# generated: 08-26-2026 01:19
+# project: openHands
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: "_bmad-output/implementation-artifacts"
+#
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created, ready for development
+#   - in-progress: Developer actively working on implementation
+#   - review: Implementation complete, ready for review
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# Action Item Status:
+#   - open: Committed during a retrospective, not yet addressed
+#   - in-progress: Actively being worked on
+#   - done: Completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when its first story starts (via build's sprint sync)
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates the next story after the previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+# - Retrospective appends its action items to action_items; the status view surfaces open ones
+
+generated: 08-26-2026 01:19
+last_updated: 08-26-2026 01:27
+project: openHands
+project_key: NOKEY
+tracking_system: file-system
+story_location: "_bmad-output/implementation-artifacts"
+
+development_status:
+  epic-1: in-progress
+  1-1-启动后保持后台宿主与托盘状态: in-progress
+  1-2-用本地-sqlite-保存最小专注片段: backlog
+  1-3-按应用名采样前台应用且不采集内容: backlog
+  1-4-处理空闲-锁屏-睡眠-暂停和跨日边界: backlog
+  epic-1-retrospective: optional
+
+  epic-2: backlog
+  2-1-查询每日应用-分类与未分类统计: backlog
+  2-2-初始化默认分类并支持应用分类规则: backlog
+  2-3-呈现轻量日报表界面: backlog
+  2-4-行内整理未分类应用: backlog
+  2-5-应用-ux-视觉规范和中性文案: backlog
+  epic-2-retrospective: optional
+
+  epic-3: backlog
+  3-1-设置和托盘中的记录控制: backlog
+  3-2-管理排除应用列表: backlog
+  3-3-删除本地数据并保持事务一致: backlog
+  3-4-导出-csv-json-统计摘要: backlog
+  3-5-固化无网络与未来同步边界: backlog
+  epic-3-retrospective: optional
+
+action_items: []
