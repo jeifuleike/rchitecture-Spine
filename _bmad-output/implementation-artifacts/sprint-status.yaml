@@ -36,15 +36,15 @@
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 
 generated: 08-26-2026 01:19
-last_updated: 08-26-2026 01:27
+last_updated: 08-26-2026 09:16
 project: openHands
 project_key: NOKEY
 tracking_system: file-system
 story_location: "_bmad-output/implementation-artifacts"
 
 development_status:
-  epic-1: in-progress
-  1-1-启动后保持后台宿主与托盘状态: in-progress
+  epic-1: backlog
+  1-1-启动后保持后台宿主与托盘状态: backlog
   1-2-用本地-sqlite-保存最小专注片段: backlog
   1-3-按应用名采样前台应用且不采集内容: backlog
   1-4-处理空闲-锁屏-睡眠-暂停和跨日边界: backlog

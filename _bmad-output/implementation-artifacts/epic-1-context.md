@@ -4,7 +4,7 @@
 
 ## Goal
 
-Epic 1 建立专注记录器可信的本地记录底座：一个 Windows WPF 单进程桌面应用能够安静驻留后台，通过托盘暴露被动状态，按应用级别采样前台活动，把 focus、idle、paused、locked、sleeping 等片段可靠写入本地 SQLite，并在空闲、锁屏、睡眠、暂停、恢复和本地跨日时切清边界。它的价值不是完成最终报表，而是让后续报表、分类和数据控制都有一份隐私边界明确、可恢复、可解释的本地事实源。可用 planning artifacts 包含 epics、PRD/addendum、architecture 和 UX/design；未发现 product brief，因此本文不引入产品简报独有约束。
+Epic 1 建立专注记录器可信的本地记录底座：一个 Windows WPF 单进程桌面应用能够安静驻留后台，通过托盘暴露被动状态，按应用级别采样前台活动，把 `focus`、`idle`、`paused`、`locked`、`sleeping` 等片段可靠写入本地 SQLite，并在空闲、锁屏、睡眠、暂停、恢复和本地跨日时切清边界。它的价值不是完成最终报表，而是让后续报表、分类和数据控制都有一份隐私边界明确、可恢复、可解释的本地事实源。
 
 ## Stories
 

@@ -2,7 +2,7 @@
 title: 'Story 1.1: 启动后保持后台宿主与托盘状态'
 type: 'feature'
 created: '2026-08-26'
-status: 'in-progress'
+status: 'draft'
 review_loop_iteration: 0
 story_key: '1-1-启动后保持后台宿主与托盘状态'
 baseline_commit: 'NO_VCS'
