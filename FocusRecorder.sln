@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FocusRecorder.App", "src\FocusRecorder.App\FocusRecorder.App.csproj", "{8B635326-2A3F-41B8-9BFE-B8252D46FD55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FocusRecorder.App.Tests", "tests\FocusRecorder.App.Tests\FocusRecorder.App.Tests.csproj", "{C68759A4-16CF-4271-B340-F4EEADE88A3D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B635326-2A3F-41B8-9BFE-B8252D46FD55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B635326-2A3F-41B8-9BFE-B8252D46FD55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B635326-2A3F-41B8-9BFE-B8252D46FD55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B635326-2A3F-41B8-9BFE-B8252D46FD55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C68759A4-16CF-4271-B340-F4EEADE88A3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C68759A4-16CF-4271-B340-F4EEADE88A3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C68759A4-16CF-4271-B340-F4EEADE88A3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C68759A4-16CF-4271-B340-F4EEADE88A3D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

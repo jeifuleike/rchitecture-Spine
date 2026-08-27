@@ -2,16 +2,17 @@
 title: 'Story 1.1: 启动后保持后台宿主与托盘状态'
 type: 'feature'
 created: '2026-08-26'
-status: 'draft'
+status: 'review'
 review_loop_iteration: 0
-story_key: '1-1-启动后保持后台宿主与托盘状态'
-baseline_commit: 'NO_VCS'
+followup_review_recommended: false
+baseline_commit: '906b95a5e6e3543d1005f0faf6f918ff88c8fcc9'
 context:
   - '{project-root}/_bmad-output/implementation-artifacts/epic-1-context.md'
-  - '{project-root}/_bmad-output/planning-artifacts/epics.md'
+warnings: []
+deferred: []
 ---
 
-<frozen-after-approval reason="human-owned intent — do not modify unless human renegotiates">
+<intent-contract>
 
 ## Intent
 
@@ -36,45 +37,55 @@ context:
 | Open from tray | 用户点击托盘“打开报表” | 主窗口显示并获得焦点，后台宿主状态不变 | 如果窗口不存在则重建主窗口 |
 | Exit from tray | 用户点击托盘“退出” | 执行有序退出，后台宿主停止，托盘图标释放 | 重复退出必须幂等 |
 
-</frozen-after-approval>
+</intent-contract>
 
 ## Code Map
 
-- `D:\ai\openHands` -- 当前没有应用源码、solution、csproj 或 C# 文件；本故事是 greenfield skeleton。
-- `D:\ai\openHands\_bmad-output\implementation-artifacts\epic-1-context.md` -- Epic 1 的实现上下文，包含生命周期、托盘、无打扰和后续故事边界。
-- `D:\ai\openHands\_bmad-output\planning-artifacts\epics.md` -- Story 1.1 验收标准和 FR/UX 追踪来源。
-- `D:\ai\openHands\_bmad-output\implementation-artifacts\sprint-status.yaml` -- 当前 story key 为 `1-1-启动后保持后台宿主与托盘状态`，实现完成后需要推进到 `review`。
-- `dotnet --info` -- 当前机器只有 .NET runtime，没有 SDK；实现可以写文件，但本机无法执行 `dotnet build`，除非用户安装 SDK。
+- `D:\project-sc\rchitecture-Spine\src\FocusRecorder.App\` -- 已存在但为空的应用层目录；本故事在其中建立 WPF 壳和 shell 服务。
+- `D:\project-sc\rchitecture-Spine\src\FocusRecorder.Application\`、`Domain\`、`Infrastructure\` -- 已预建为空目录，仅作为后续故事的分层边界；本故事不得向其中加入采样或持久化实现。
+- `D:\project-sc\rchitecture-Spine\tests\` -- 已预建三个空测试项目目录；为可在无 WPF 图形会话下验证的后台宿主状态机添加单元测试项目。
+- `D:\project-sc\rchitecture-Spine\_bmad-output\implementation-artifacts\epic-1-context.md` -- 已重新生成的 Epic 1 约束：单实例、关闭隐藏、托盘被动入口、显式退出及无敏感采集。
+- `D:\project-sc\rchitecture-Spine\_bmad-output\implementation-artifacts\sprint-status.yaml` -- 完成实现后将 `epic-1` 置为 `in-progress`，将本故事置为 `review`；不要改动其他故事。
+- 环境检查：工作树基线为 `906b95a5e6e3543d1005f0faf6f918ff88c8fcc9`，分支为 `main`；已安装 .NET 10 SDK，并已通过自动化构建与测试。
 
 ## Tasks & Acceptance
 
 **Execution:**
-- [ ] `D:\ai\openHands\FocusRecorder.sln` -- 创建 solution 壳 -- 为后续多项目结构提供入口。
-- [ ] `D:\ai\openHands\src\FocusRecorder.App\FocusRecorder.App.csproj` -- 创建 WPF exe 项目，目标 `net10.0-windows`，启用 WPF 和 Windows targeting -- 对齐架构栈。
-- [ ] `D:\ai\openHands\src\FocusRecorder.App\App.xaml` and `App.xaml.cs` -- 实现 composition root、启动后台宿主、创建主窗口和托盘控制器 -- 保证单进程生命周期。
-- [ ] `D:\ai\openHands\src\FocusRecorder.App\MainWindow.xaml` and `MainWindow.xaml.cs` -- 实现最小状态窗口，关闭时隐藏而不退出 -- 满足 Story 1.1 用户可见行为。
-- [ ] `D:\ai\openHands\src\FocusRecorder.App\Services\BackgroundHostService.cs` -- 实现幂等 Start/Stop 和状态变更事件 -- 后续记录协调器可挂接。
-- [ ] `D:\ai\openHands\src\FocusRecorder.App\Services\TrayController.cs` -- 实现托盘图标、打开报表、状态项和退出命令，并确保释放资源 -- 满足托盘交互。
-- [ ] `D:\ai\openHands\src\FocusRecorder.App\Services\RecordingStatus.cs` -- 定义最小状态模型 -- 避免 UI 直接持有散乱字符串。
-- [ ] `D:\ai\openHands\_bmad-output\implementation-artifacts\sprint-status.yaml` -- 将当前故事推进到 `review` -- 同步 BMad sprint 状态。
+- `D:\project-sc\rchitecture-Spine\FocusRecorder.sln` -- 创建包含 App 与测试项目的 solution 入口，维持未来分层项目可加入的结构。
+- `D:\project-sc\rchitecture-Spine\src\FocusRecorder.App\FocusRecorder.App.csproj`、`App.xaml`、`App.xaml.cs` -- 创建 `net10.0-windows` WPF 可执行项目；组合根负责单实例协调、后台宿主和托盘控制器的生命周期，并将未处理初始化错误降级为主窗口中的被动状态。
+- `D:\project-sc\rchitecture-Spine\src\FocusRecorder.App\MainWindow.xaml`、`MainWindow.xaml.cs` -- 提供只呈现当前记录状态的中性主窗口；拦截用户关闭以隐藏窗口，且提供由托盘打开时的显示/激活入口。
+- `D:\project-sc\rchitecture-Spine\src\FocusRecorder.App\Services\RecordingStatus.cs`、`BackgroundHostService.cs` -- 定义最小状态枚举/快照和线程安全、幂等的 Start/Stop 生命周期服务；不连接数据库或真实系统采样。
+- `D:\project-sc\rchitecture-Spine\src\FocusRecorder.App\Services\TrayController.cs`、`SingleInstanceCoordinator.cs` -- 以框架自带托盘 API 创建被动图标与“打开报表 / 状态 / 退出”菜单，释放图标资源；用当前用户会话命名的互斥体及唤醒信号把第二实例转发到现有窗口后退出。
+- `D:\project-sc\rchitecture-Spine\tests\FocusRecorder.App.Tests\FocusRecorder.App.Tests.csproj`、`BackgroundHostServiceTests.cs` -- 以合成调用验证宿主启动、停止、重复停止以及状态变更；不启动 WPF、托盘或真实 Win32 API。
+- `D:\project-sc\rchitecture-Spine\_bmad-output\implementation-artifacts\sprint-status.yaml` -- 在全部源码和测试文件写入后，仅更新 Epic 1 与 Story 1.1 的状态为 `in-progress` / `review`。
 
 **Acceptance Criteria:**
-- Given 应用首次启动, when 主窗口初始化完成, then 后台宿主开始运行，托盘入口可见。
-- Given 应用正在运行, when 用户关闭主窗口, then 窗口隐藏且后台宿主保持 Running。
-- Given 应用正在记录, when 用户从托盘菜单选择“打开报表”, then 主窗口显示或获得焦点且记录状态保持不变。
-- Given 应用正在运行, when 用户从托盘菜单选择“退出”, then 后台宿主和托盘控制器有序停止并释放资源。
-- Given 正常运行状态, when UI 或托盘展示文案, then 文案保持中性且不出现提醒、评分或监督语气。
+- Given 首个应用实例已启动，when 组合根初始化完成，then 后台宿主处于 `Running`、托盘入口可用，且不会显示通知或模态提示。
+- Given 后台宿主正在运行，when 用户关闭主窗口，then 窗口被隐藏而后台宿主和托盘保持可用。
+- Given 应用正在记录，when 用户从托盘选择“打开报表”，then 主窗口显示并获得焦点，记录状态不改变。
+- Given 应用正在运行，when 用户从托盘选择“退出”或重复触发退出，then 宿主恰好停止一次、托盘资源被释放、进程可正常结束。
+- Given 同一 Windows 用户会话已有运行实例，when 第二实例启动，then 第二实例请求原实例显示窗口并自行退出，不创建第二个后台宿主或托盘图标。
+- Given 正常运行或可恢复的初始化异常，when 主窗口或托盘呈现状态，then 文案为中性被动描述，不包含提醒、评分、监督或活动内容。
 
 ## Spec Change Log
 
+## Review Triage Log
+
 ## Design Notes
 
-本故事故意使用内存中的 `BackgroundHostService`，不引入真正采样或持久化。这样 Story 1.1 可以独立完成生命周期价值，同时为 Story 1.2 的 SQLite 和 Story 1.3 的 Win32 采样留出清晰接缝。
+以 `BackgroundHostService` 作为没有外部副作用的生命周期接缝：本故事只验证宿主边界，Story 1.2+ 可在其后接入协调器、SQLite 与 Win32 适配器。托盘采用框架自带 API，避免引入第三方依赖。
 
 ## Verification
 
 **Commands:**
-- `dotnet build D:\ai\openHands\FocusRecorder.sln` -- expected: 在安装 .NET 10 SDK 的环境中编译成功。
+- `dotnet test D:\project-sc\rchitecture-Spine\FocusRecorder.sln` -- expected: 安装 .NET 10 SDK 的 Windows 环境中，生命周期单元测试全部通过。
+- `dotnet build D:\project-sc\rchitecture-Spine\FocusRecorder.sln` -- expected: WPF 应用和测试项目编译成功，且不还原第三方托盘依赖。
 
 **Manual checks (if no CLI):**
-- 当前机器缺 .NET SDK 时，检查 project/source 文件存在，WPF lifecycle 代码路径满足关闭隐藏、托盘打开、托盘退出和资源释放。
+- 检查项目文件目标为 `net10.0-windows` 并启用 WPF；检查关闭事件只隐藏窗口，显式退出路径按“停止宿主、释放托盘、关闭应用”顺序执行。
+- 在具备 Windows 图形会话的 .NET 10 SDK 环境中启动应用，逐项执行矩阵中的启动、关闭、托盘打开、退出和第二实例行为。
+
+## Auto Run Result
+
+Status: review
+Automated verification: 已安装 .NET 10 SDK 10.0.400，并通过 `dotnet test FocusRecorder.sln --no-restore`（5/5）与 `dotnet build FocusRecorder.sln --no-restore`（0 warnings, 0 errors）；`git diff --check` 通过。托盘、窗口关闭隐藏和第二实例行为仍留待 Windows 图形会话人工验收。
