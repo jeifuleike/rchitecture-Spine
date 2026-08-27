@@ -7,9 +7,11 @@ namespace FocusRecorder;
 public partial class MainWindow : Window
 {
     private bool _allowClose;
+    private readonly Action? _closeToTray;
 
-    public MainWindow(BackgroundHostService host)
+    public MainWindow(BackgroundHostService host, Action? closeToTray = null)
     {
+        _closeToTray = closeToTray;
         InitializeComponent();
         SetStatus(host.Status);
         host.StatusChanged += (_, status) => Dispatcher.Invoke(() => SetStatus(status));
@@ -35,7 +37,10 @@ public partial class MainWindow : Window
         try
         {
             e.Cancel = true;
-            Hide();
+            if (_closeToTray is null)
+                Hide();
+            else
+                _closeToTray();
         }
         catch (InvalidOperationException)
         {

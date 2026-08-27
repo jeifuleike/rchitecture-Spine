@@ -7,4 +7,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FocusRecorder.Application\FocusRecorder.Application.csproj" />
+    <ProjectReference Include="..\FocusRecorder.Infrastructure\FocusRecorder.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>

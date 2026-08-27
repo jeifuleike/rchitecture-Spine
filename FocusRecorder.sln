@@ -6,6 +6,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FocusRecorder.App", "src\Fo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FocusRecorder.App.Tests", "tests\FocusRecorder.App.Tests\FocusRecorder.App.Tests.csproj", "{C68759A4-16CF-4271-B340-F4EEADE88A3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FocusRecorder.Domain", "src\FocusRecorder.Domain\FocusRecorder.Domain.csproj", "{1A5279A6-D3E3-4A10-9D2A-1CE14B53D2A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FocusRecorder.Application", "src\FocusRecorder.Application\FocusRecorder.Application.csproj", "{29345DE6-71B2-4466-9BD0-8788A3D5DC75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FocusRecorder.Infrastructure", "src\FocusRecorder.Infrastructure\FocusRecorder.Infrastructure.csproj", "{3348D688-DCF2-4200-8C6C-881D6B53069B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FocusRecorder.Domain.Tests", "tests\FocusRecorder.Domain.Tests\FocusRecorder.Domain.Tests.csproj", "{411526B5-BCE6-4E1A-9DA8-7710F0D5A002}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FocusRecorder.Application.Tests", "tests\FocusRecorder.Application.Tests\FocusRecorder.Application.Tests.csproj", "{5DA8E47D-2BC7-4D30-B637-9C14CB56D103}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FocusRecorder.Infrastructure.Tests", "tests\FocusRecorder.Infrastructure.Tests\FocusRecorder.Infrastructure.Tests.csproj", "{62C9D910-C2E9-4705-AD48-68D11C57E204}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,5 +32,29 @@ Global
 		{C68759A4-16CF-4271-B340-F4EEADE88A3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C68759A4-16CF-4271-B340-F4EEADE88A3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C68759A4-16CF-4271-B340-F4EEADE88A3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A5279A6-D3E3-4A10-9D2A-1CE14B53D2A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A5279A6-D3E3-4A10-9D2A-1CE14B53D2A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A5279A6-D3E3-4A10-9D2A-1CE14B53D2A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A5279A6-D3E3-4A10-9D2A-1CE14B53D2A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29345DE6-71B2-4466-9BD0-8788A3D5DC75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29345DE6-71B2-4466-9BD0-8788A3D5DC75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29345DE6-71B2-4466-9BD0-8788A3D5DC75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29345DE6-71B2-4466-9BD0-8788A3D5DC75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3348D688-DCF2-4200-8C6C-881D6B53069B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3348D688-DCF2-4200-8C6C-881D6B53069B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3348D688-DCF2-4200-8C6C-881D6B53069B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3348D688-DCF2-4200-8C6C-881D6B53069B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{411526B5-BCE6-4E1A-9DA8-7710F0D5A002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{411526B5-BCE6-4E1A-9DA8-7710F0D5A002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{411526B5-BCE6-4E1A-9DA8-7710F0D5A002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{411526B5-BCE6-4E1A-9DA8-7710F0D5A002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DA8E47D-2BC7-4D30-B637-9C14CB56D103}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DA8E47D-2BC7-4D30-B637-9C14CB56D103}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DA8E47D-2BC7-4D30-B637-9C14CB56D103}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DA8E47D-2BC7-4D30-B637-9C14CB56D103}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62C9D910-C2E9-4705-AD48-68D11C57E204}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62C9D910-C2E9-4705-AD48-68D11C57E204}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62C9D910-C2E9-4705-AD48-68D11C57E204}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62C9D910-C2E9-4705-AD48-68D11C57E204}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

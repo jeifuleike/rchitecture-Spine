@@ -1,4 +1,6 @@
 using FocusRecorder.Services;
+using FocusRecorder.Application;
+using FocusRecorder.Domain;
 using Xunit;
 
 namespace FocusRecorder.App.Tests;
@@ -63,5 +65,55 @@ public sealed class BackgroundHostServiceTests
         host.Stop();
 
         Assert.Equal(new[] { RecordingState.Running, RecordingState.Stopped }, observed);
+    }
+
+    [Fact]
+    public async Task Main_window_close_hides_window_and_keeps_recording()
+    {
+        var host = new BackgroundHostService();
+        var repository = new FakeRepository();
+        var lifecycle = new RecordingShellLifecycle(host, new RecordingCoordinator(repository));
+        lifecycle.Start();
+        var hidden = false;
+
+        lifecycle.CloseMainWindow(() => hidden = true);
+
+        Assert.True(hidden);
+        Assert.Equal(RecordingState.Running, host.Status.State);
+        await Task.CompletedTask;
+    }
+
+    [Fact]
+    public async Task Tray_exit_closes_open_segment_before_stopping_host()
+    {
+        var host = new BackgroundHostService();
+        var repository = new FakeRepository();
+        var coordinator = new RecordingCoordinator(repository);
+        var lifecycle = new RecordingShellLifecycle(host, coordinator);
+        lifecycle.Start();
+        await coordinator.HandleAsync(new RecordingSignal(FocusSegmentStates.Focus, new FocusRecorder.Domain.ApplicationIdentity("Editor", "editor.exe", null), DateTimeOffset.UtcNow));
+
+        await lifecycle.ExitAsync();
+
+        Assert.Single(repository.Closed);
+        Assert.Equal(RecordingState.Stopped, host.Status.State);
+    }
+    [Fact] public async Task Failed_exit_can_be_retried()
+    {
+        var host = new BackgroundHostService(); var repository = new FakeRepository { FailClose = true }; var coordinator = new RecordingCoordinator(repository); var lifecycle = new RecordingShellLifecycle(host, coordinator); lifecycle.Start();
+        await coordinator.HandleAsync(new RecordingSignal(FocusSegmentStates.Idle, null, DateTimeOffset.UtcNow));
+        await Assert.ThrowsAsync<InvalidOperationException>(() => lifecycle.ExitAsync()); Assert.Equal(RecordingState.Running, host.Status.State);
+        repository.FailClose = false; await lifecycle.ExitAsync(); Assert.Equal(RecordingState.Stopped, host.Status.State);
+    }
+
+    private sealed class FakeRepository : IRecordingRepository
+    {
+        public List<Guid> Closed { get; } = []; public bool FailClose { get; set; }
+        public Task InitializeAsync(CancellationToken ct = default) => Task.CompletedTask;
+        public Task RecoverOpenSegmentsAsync(CancellationToken ct = default) => Task.CompletedTask;
+        public Task<FocusSegment?> GetOpenSegmentAsync(CancellationToken ct = default) => Task.FromResult<FocusSegment?>(null);
+        public Task SaveOpenSegmentAsync(FocusSegment segment, CancellationToken ct = default) => Task.CompletedTask;
+        public Task CheckpointAsync(Guid segmentId, DateTimeOffset checkpointUtc, CancellationToken ct = default) => Task.CompletedTask;
+        public Task CloseAsync(Guid segmentId, DateTimeOffset endedAtUtc, CancellationToken ct = default) { if (FailClose) throw new InvalidOperationException("close failed"); Closed.Add(segmentId); return Task.CompletedTask; }
     }
 }

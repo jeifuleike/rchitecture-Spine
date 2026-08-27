@@ -1,4 +1,6 @@
 using System.Windows;
+using FocusRecorder.Application;
+using FocusRecorder.Infrastructure.Sqlite;
 using FocusRecorder.Services;
 
 namespace FocusRecorder;
@@ -10,9 +12,12 @@ public partial class App : System.Windows.Application
     private SingleInstanceCoordinator? _singleInstance;
     private TrayController? _tray;
     private MainWindow? _mainWindow;
+    private SqliteRecordingRepository? _repository;
+    private RecordingCoordinator? _recordingCoordinator;
+    private RecordingShellLifecycle? _lifecycle;
     private int _isExiting;
 
-    protected override void OnStartup(StartupEventArgs e)
+    protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
         _singleInstance = new SingleInstanceCoordinator();
@@ -25,24 +30,31 @@ public partial class App : System.Windows.Application
 
         try
         {
-            _mainWindow = new MainWindow(_host);
-            _host.Start();
+            _repository = new SqliteRecordingRepository(SqliteRecordingRepository.DefaultDatabasePath);
+            _recordingCoordinator = new RecordingCoordinator(_repository);
+            await _recordingCoordinator.InitializeAsync();
+            _lifecycle = new RecordingShellLifecycle(_host, _recordingCoordinator);
+            _mainWindow = new MainWindow(_host, () => _lifecycle.CloseMainWindow(() => _mainWindow?.Hide()));
+            _lifecycle.Start();
             _tray = new TrayController(ShowMainWindow, ExitApplication, _host);
             _singleInstance.ListenForActivation(() => Dispatcher.BeginInvoke(ShowMainWindow), _activationCancellation.Token);
             _mainWindow.Show();
         }
         catch (Exception)
         {
+            DisposeResources();
             _host.MarkUnavailable();
-            _mainWindow ??= new MainWindow(_host);
+            _mainWindow ??= new MainWindow(_host, () => _mainWindow?.Hide());
+            _tray ??= new TrayController(ShowMainWindow, ExitApplication, _host);
             _mainWindow.Show();
         }
     }
 
     protected override void OnExit(ExitEventArgs e)
     {
-        DisposeShell();
-        base.OnExit(e);
+        try { CloseRecordingShell(); }
+        catch { }
+        finally { DisposeResources(); base.OnExit(e); }
     }
 
     private void ShowMainWindow()
@@ -57,16 +69,31 @@ public partial class App : System.Windows.Application
         if (Interlocked.Exchange(ref _isExiting, 1) != 0)
             return;
 
-        DisposeShell();
-        _mainWindow?.AllowClose();
-        Shutdown();
+        var completed = false;
+        try
+        {
+            CloseRecordingShell();
+            DisposeResources();
+            _mainWindow?.AllowClose();
+            completed = true;
+            Shutdown();
+        }
+        finally { if (!completed) Interlocked.Exchange(ref _isExiting, 0); }
     }
 
-    private void DisposeShell()
+    private void CloseRecordingShell()
     {
         _activationCancellation.Cancel();
-        _host.Stop();
+        _lifecycle?.ExitAsync().GetAwaiter().GetResult();
+        if (_lifecycle is null)
+            _host.Stop();
+    }
+
+    private void DisposeResources()
+    {
+        _activationCancellation.Cancel();
         _tray?.Dispose();
         _singleInstance?.Dispose();
+        _repository?.Dispose();
     }
 }
